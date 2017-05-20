@@ -84,8 +84,9 @@ var zoom = (function(){
 			}
 			// Scale
 			else {
-				var origin = scrollOffset.x +'px '+ scrollOffset.y +'px',
-					transform = 'translate('+ -rect.x +'px,'+ -rect.y +'px) scale('+ scale +')';
+				var origin = scrollOffset.x +'px '+ scrollOffset.y +'px';
+				var transform = 'translate('+ -rect.x +'px,'+ -rect.y +'px) scale('+ scale +')';
+				// var transform = 'translate(0px, 0px) scale('+ scale +')';
 
 				document.body.style.transformOrigin = origin;
 				document.body.style.OTransformOrigin = origin;
@@ -98,6 +99,36 @@ var zoom = (function(){
 				document.body.style.msTransform = transform;
 				document.body.style.MozTransform = transform;
 				document.body.style.WebkitTransform = transform;
+
+        // $('body').animate({scrollTop: rect.y, scrollLeft: rect.x}, TRANSITION_DURATION);
+
+        setTimeout(function() {
+          document.body.style.transition = ''
+          document.body.style.OTransition = '';
+          document.body.style.msTransition = '';
+          document.body.style.MozTransition = '';
+          document.body.style.WebkitTransition = '';
+
+          var transform = 'translate(0px, 0px) scale('+ scale +')';
+				  document.body.style.transform = transform;
+				  document.body.style.OTransform = transform;
+				  document.body.style.msTransform = transform;
+				  document.body.style.MozTransform = transform;
+				  document.body.style.WebkitTransform = transform;
+
+
+          // var body = document.body;
+          // console.log(body.scrollLeft, body.scrollTop);
+
+          document.body.scrollLeft = rect.x + scrollOffset.x;
+          document.body.scrollTop = rect.y + scrollOffset.y;
+
+          document.body.style.transition = 'transform '+ TRANSITION_DURATION +'ms ease';
+          document.body.style.OTransition = '-o-transform '+ TRANSITION_DURATION +'ms ease';
+          document.body.style.msTransition = '-ms-transform '+ TRANSITION_DURATION +'ms ease';
+          document.body.style.MozTransition = '-moz-transform '+ TRANSITION_DURATION +'ms ease';
+          document.body.style.WebkitTransition = '-webkit-transform '+ TRANSITION_DURATION +'ms ease';
+        }, TRANSITION_DURATION)
 			}
 		}
 		else {
@@ -134,23 +165,23 @@ var zoom = (function(){
 			rangeY = window.innerHeight * range,
 			scrollOffset = getScrollOffset();
 
-		// Up
-		if( mouseY < rangeY ) {
-			window.scroll( scrollOffset.x, scrollOffset.y - ( 1 - ( mouseY / rangeY ) ) * ( 14 / level ) );
-		}
-		// Down
-		else if( mouseY > window.innerHeight - rangeY ) {
-			window.scroll( scrollOffset.x, scrollOffset.y + ( 1 - ( window.innerHeight - mouseY ) / rangeY ) * ( 14 / level ) );
-		}
+		// // Up
+		// if( mouseY < rangeY ) {
+		// 	window.scroll( scrollOffset.x, scrollOffset.y - ( 1 - ( mouseY / rangeY ) ) * ( 14 / level ) );
+		// }
+		// // Down
+		// else if( mouseY > window.innerHeight - rangeY ) {
+		// 	window.scroll( scrollOffset.x, scrollOffset.y + ( 1 - ( window.innerHeight - mouseY ) / rangeY ) * ( 14 / level ) );
+		// }
 
-		// Left
-		if( mouseX < rangeX ) {
-			window.scroll( scrollOffset.x - ( 1 - ( mouseX / rangeX ) ) * ( 14 / level ), scrollOffset.y );
-		}
-		// Right
-		else if( mouseX > window.innerWidth - rangeX ) {
-			window.scroll( scrollOffset.x + ( 1 - ( window.innerWidth - mouseX ) / rangeX ) * ( 14 / level ), scrollOffset.y );
-		}
+		// // Left
+		// if( mouseX < rangeX ) {
+		// 	window.scroll( scrollOffset.x - ( 1 - ( mouseX / rangeX ) ) * ( 14 / level ), scrollOffset.y );
+		// }
+		// // Right
+		// else if( mouseX > window.innerWidth - rangeX ) {
+		// 	window.scroll( scrollOffset.x + ( 1 - ( window.innerWidth - mouseX ) / rangeX ) * ( 14 / level ), scrollOffset.y );
+		// }
 	}
 
 	function getScrollOffset() {
